@@ -1,14 +1,28 @@
 package api
 
 import (
+	"fmt"
 	"log"
+	"net/http"
+	"os"
+	"strconv"
+	"strings"
 
 	"github.com/google/uuid"
+	"github.com/joho/godotenv"
 	"github.com/victorguidi/ghttp/ghttp"
 	"github.com/victorguidi/lab/src/sql"
 )
 
-var db = sql.NewDB()
+var (
+	db              = sql.NewDB()
+	MIDDLEWAREROUTE string
+)
+
+func init() {
+	godotenv.Load()
+	MIDDLEWAREROUTE = os.Getenv("MIDDLEWAREROUTE")
+}
 
 type Server struct {
 	*ghttp.Ghttp
@@ -25,18 +39,25 @@ func (s *Server) RegisterHandles() {
 	s.GET("/projects/{id}", s.handleGetOneProject)
 	s.GET("/docs", s.handleGetDocs)
 	s.GET("/docs/{id}", s.handleGetOneDoc)
-	s.POST("/projects", s.handleAddProject)
-	s.POST("/docs", s.handleAddDocs)
-	s.DELETE("/projects/{id}", s.handleDeleteProject)
-	s.DELETE("/docs/{id}", s.handleDeleteDoc)
+	s.POST(fmt.Sprintf("/%s/projects", MIDDLEWAREROUTE), s.handleAddProject)
+	s.POST(fmt.Sprintf("/%s/docs", MIDDLEWAREROUTE), s.handleAddDocs)
+	s.DELETE(fmt.Sprintf("/%s/projects/{id}", MIDDLEWAREROUTE), s.handleDeleteProject)
+	s.DELETE(fmt.Sprintf("/%s/docs/{id}", MIDDLEWAREROUTE), s.handleDeleteDoc)
 }
 
 type Project struct {
 	Id                 string `json:"id"`
 	ProjectName        string `json:"projectName"`
 	ProjectDescription string `json:"projectDescription"`
+	ProjectText        string `json:"projectText"`
+	ProjectVideoUrl    string `json:"projectVideoUrl"`
+	ProjectThumbImgUrl string `json:"projectThumbImgUrl"`
+	ArticleUrl         string `json:"articleUrl"`
 	Created_at         string `json:"created_at"`
 	Updated_at         string `json:"updated_at"`
+	ProjectTags        string `json:"projectTags"`
+	ProjectStack       string `json:"projectStack"`
+	ProjectProgress    int    `json:"projectProgress"`
 }
 
 type Doc struct {
@@ -95,27 +116,67 @@ func (s *Server) handleGetOneDoc(c ghttp.Context) error {
 }
 
 func (s *Server) handleAddProject(c ghttp.Context) error {
-	p := Project{
-		Id:          uuid.NewString(),
-		ProjectName: "bud",
-		ProjectDescription: `
-Bud is an advanced AI Workers engine designed to streamline and manage various tasks through a unified interface. With Bud, you can control multiple workers performing different functions. 
-The engine comes with two pre-installed workers:
-  - **Audio Worker**: Manages audio input and output, making it easy to extend and integrate with other workers for tasks involving voice commands and audio processing.
-  - **Chat Worker**: A conversational agent that waits for user inputs or questions and responds using a predefined AI model.
-  - **RAG Worker**: A conversational agent that waits for user inputs or questions and responds using a predefined AI model.
+	var project Project
 
-Bud leverages the power of Ollama to interact with AI models and embed inputs seamlessly. It also integrates Whisper.cpp bindings to convert audio to text and includes a simple text dispatcher to transform text back into audio.
-    `,
+	formData := make(map[string]string)
+	err := c.ParseMultipartForm(10 << 20)
+	if err != nil {
+		return c.FAIL(err, http.StatusInternalServerError)
 	}
 
-	err := db.Insert("INSERT INTO projects (id, projectname, projectdescription) VALUES($1, $2, $3);", p, p.Id, p.ProjectName, p.ProjectDescription)
+	for k := range c.Form {
+		formData[k] = c.FormValue(k)
+	}
+
+	project.ProjectName = formData["projectName"]
+	project.ProjectDescription = formData["projectDescription"]
+	project.ProjectTags = formData["projectTags"]
+	project.ProjectStack = formData["projectStack"]
+	project.ProjectVideoUrl = formData["projectVideoUrl"]
+	project.ProjectThumbImgUrl = formData["projectThumbImgUrl"]
+	project.ProjectProgress, _ = strconv.Atoi(formData["projectProgress"])
+	project.ArticleUrl = formData["articleUrl"]
+
+	file, _, err := c.FormFile("file")
+	if err != nil {
+		return c.FAIL(err, http.StatusBadRequest)
+	}
+
+	project.Id = uuid.NewString()
+	project.ProjectText, err = ProcessMD(file)
+	if err != nil {
+		return c.FAIL(err, http.StatusInternalServerError)
+	}
+
+	err = db.Insert(strings.ReplaceAll(`INSERT INTO projects (
+    id, 
+    project_name, 
+    project_description,
+    project_text,
+    project_tags,
+    project_stack,
+    project_video_url,
+    project_thumb_img_url,
+    project_progress,
+    article_url
+    ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`, "\n", ""), project,
+		project.Id,
+		project.ProjectName,
+		project.ProjectDescription,
+		project.ProjectText,
+		project.ProjectTags,
+		project.ProjectStack,
+		project.ProjectVideoUrl,
+		project.ProjectThumbImgUrl,
+		project.ProjectProgress,
+		project.ArticleUrl,
+	)
 	if err != nil {
 		log.Println(err)
 		c.FAIL(err, 500)
 	}
 
-	return c.JSON(p)
+	return c.JSON(project)
 }
 
 func (s *Server) handleAddDocs(c ghttp.Context) error {

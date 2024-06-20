@@ -32,6 +32,28 @@ export default {
   },
   plugins: [
     require('@tailwindcss/typography'),
+    function({ addUtilities }) {
+      const newUtilities = {
+        ".scrollbar-thin": {
+          scrollbarWidth: "thin",
+          scrollbarColor: "#231B43",
+        },
+        ".scrollbar-webkit": {
+          "&::-webkit-scrollbar": {
+            width: "8px"
+          },
+          "&::-webkit-scrollbar-track": {
+            background: "#0E122B"
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#231B43",
+            borderRadius: "20px",
+            border: "1px solid"
+          }
+        }
+      }
+      addUtilities(newUtilities, ["responsive", "hover"])
+    },
   ],
 }
 

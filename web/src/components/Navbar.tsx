@@ -9,8 +9,8 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="flex w-1/2 h-full justify-end p-6 items-center">
-        <Link to="/docs"><button className="text-white text-xl font-bold mr-10">docs</button></Link>
-        <Link to="/projects/"><button className="text-white text-xl font-bold border border-black rounded p-2">projects</button></Link>
+        <Link to="/docs"><button className="text-white text-xl font-bold">Articles</button></Link>
+        {/* <Link to="/projects/"><button className="text-white text-xl font-bold border border-black rounded p-2">projects</button></Link> */}
       </div>
     </nav>
   )

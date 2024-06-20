@@ -10,9 +10,8 @@ function App() {
       <div id="main" className="flex flex-col w-screen h-screen bg-[#0E122B] overflow-hidden">
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/projects/" Component={Project} />
-          <Route path="/projects/id/:projectId?" Component={Projects} />
+          <Route path="/" Component={Project} />
+          <Route path="/project/id/:projectId?" Component={Projects} />
           <Route path="/docs" element={<Home />} />
         </Routes>
         <hr />

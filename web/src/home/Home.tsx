@@ -30,7 +30,7 @@ Bud leverages the power of Ollama to interact with AI models and embed inputs se
           />
         </div>
       </div>
-      <div className="flex-grow"></div>
+      {/* <div className="flex-grow"></div> */}
     </div>
   );
 
