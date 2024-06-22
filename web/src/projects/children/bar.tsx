@@ -40,13 +40,13 @@ const Bar = ({ FilterByTag, findNewestProject, searchByTitleOrDescription }) => 
         </button>
       </div>
       {isMenuOpen && (
-        <div className="absolute top-[10%] right-0 w-full bg-[#231B43] p-4 flex flex-col items-center text-white">
-          <button className="mb-2" onClick={() => handleFilterClick('AI')}>AI Projects</button>
+        <div className="absolute top-[21%] right-6 w-1/2 rounded bg-black p-4 flex flex-col items-center text-white">
+          <button className="mb-2 hover:to-zinc-900" onClick={() => handleFilterClick('AI')}>AI Projects</button>
           <button className="mb-2" onClick={() => handleFilterClick('Games')}>Games</button>
           <button className="mb-2" onClick={() => handleFilterClick('APIs')}>APIs</button>
           <button className="mb-2" onClick={() => handleFilterClick('Libraries')}>Libraries</button>
-          <h1 className="mt-4" onClick={handleNewestClick}>Newest</h1>
-          <h1>Filter</h1>
+          <button className="mt-2" onClick={handleNewestClick}>Newest</button>
+          <button className="mt-2" onClick={handleReset}>Reset</button>
         </div>
       )}
     </div>

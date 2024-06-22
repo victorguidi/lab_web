@@ -41,16 +41,18 @@ const Projects: React.FC = () => {
         project ?
           <div id="main" className="flex flex-col w-screen h-screen overflow-auto">
             <div className="flex flex-col md:flex-row md:items-stretch md:justify-between p-4 flex-grow max-h-[90%]">
-              <div id="project" className="flex flex-col w-full md:w-[60%] h-full border border-black rounded mb-4 md:mb-0 md:mr-4">
-                <iframe
-                  className="flex w-full h-full"
-                  src={project.projectVideoUrl}
-                  title="YouTube video player"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                ></iframe>
-              </div>
-              <div id="project-description" className="flex flex-col w-full md:w-[40%] h-full overflow-auto scrollbar-webkit">
+              {project.projectVideoUrl ?
+                <div id="project" className="flex flex-col w-full md:w-[60%] h-full border border-black rounded mb-4 md:mb-0 md:mr-4">
+                  <iframe
+                    className="flex w-full h-full"
+                    src={project.projectVideoUrl}
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                : <></>}
+              <div id="project-description" className={`flex flex-col w-full md:w-[40%] h-full overflow-auto scrollbar-webkit flex-grow  ${project.projectVideoUrl ? '' : 'items-center'}`}>
                 <ProjectComponent
                   projectName={project.projectText.split("\n")[0]}
                   projectDescription={project.projectText}

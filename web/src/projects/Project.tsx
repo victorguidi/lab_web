@@ -14,7 +14,7 @@ const Project: React.FC = () => {
     projectText: string
     projectTags: string
     projectStack: string
-    projectVideoUrl: string
+    projectVideoUrl?: string
     projectThumbImgUrl: string
     articleUrl: string
     projectProgress: number
@@ -23,12 +23,19 @@ const Project: React.FC = () => {
   }
 
   useEffect(() => {
+    const localProjects = window.sessionStorage.getItem("project")
+    if (localProjects) {
+      setProject(JSON.parse(localProjects))
+      setFilteredProjects(JSON.parse(localProjects))
+      return
+    }
     fetch(`http://localhost:5000/projects`)
       .then(obj => {
         obj.json()
           .then((r: Project[]) => {
             setProject(r)
             setFilteredProjects(r)
+            window.sessionStorage.setItem("project", JSON.stringify(r))
           })
       })
       .catch((err) => console.log(err))
