@@ -22,6 +22,7 @@ export function MarkdownRenderer({ children: markdown }: MarkdownRendererProps) 
               style={dracula}
               language={match[1]}
               PreTag="div"
+              className={`${className}`}
               {...props}
             >
               {String(children).replace(/\n$/, '')}

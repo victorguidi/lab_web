@@ -17,7 +17,7 @@ export default {
             h5: { color: theme('colors.white') },
             h6: { color: theme('colors.white') },
             strong: { color: theme('colors.white') },
-            code: { color: theme('colors.white') },
+            code: { color: theme('colors.white'), whiteSpace: 'pre-wrap', wordBreak: 'break-word' },
             figcaption: { color: theme('colors.white') },
             blockquote: {
               color: theme('colors.white'),
@@ -25,9 +25,29 @@ export default {
             },
             'ol > li::before': { color: theme('colors.white') },
             'ul > li::before': { backgroundColor: theme('colors.white') },
+            pre: {
+              backgroundColor: theme('colors.gray.800'),
+              padding: theme('spacing.4'),
+              borderRadius: theme('borderRadius.lg'),
+              overflowX: 'auto',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+            },
+            'pre code': {
+              backgroundColor: 'inherit',
+              padding: 0,
+              borderRadius: 0,
+              wordBreak: 'break-word',
+              whiteSpace: 'pre-wrap',
+            },
           },
         },
       }),
+    },
+  },
+  variants: {
+    extend: {
+      typography: ['responsive', 'dark'],
     },
   },
   plugins: [

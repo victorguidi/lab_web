@@ -6,20 +6,19 @@ interface ProjectComponentProps {
   projectDescription: string;
   projectId: string
   articleUrl?: string
+  videoUrl?: string
 }
 
 
-const ProjectComponent: React.FC<ProjectComponentProps> = ({ projectName, projectDescription, projectId, articleUrl }) => {
+const ProjectComponent: React.FC<ProjectComponentProps> = ({ projectName, projectDescription, projectId, articleUrl, videoUrl }) => {
   return (
-    <div className="p-6">
+    <div className={`p-6 flex flex-col w-full ${videoUrl ? "" : "lg:items-center"}`}>
       {
         !projectName.includes("#") ?
           <h1 className="text-white text-3xl font-bold mb-4">{projectName}</h1>
           : <></>
       }
-      <MarkdownRenderer
-      // className="mb-6 text-gray-300 prose prose-lg prose-white text-xl"
-      >
+      <MarkdownRenderer>
         {projectDescription}
       </MarkdownRenderer>
       {

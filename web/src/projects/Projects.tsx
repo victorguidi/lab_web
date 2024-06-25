@@ -27,7 +27,6 @@ const Projects: React.FC = () => {
         .then(obj => {
           obj.json()
             .then((r: Project) => {
-              console.log(r)
               setProject(r)
             })
         })
@@ -52,11 +51,12 @@ const Projects: React.FC = () => {
                   ></iframe>
                 </div>
                 : <></>}
-              <div id="project-description" className={`flex flex-col w-full md:w-[40%] h-full overflow-auto scrollbar-webkit flex-grow  ${project.projectVideoUrl ? '' : 'items-center'}`}>
+              <div id="project-description" className={`flex flex-col w-full md:w-[40%] h-full overflow-auto scrollbar-webkit flex-grow ${project.projectVideoUrl ? '' : 'items-center'} overflow-x-hidden`}>
                 <ProjectComponent
                   projectName={project.projectText.split("\n")[0]}
                   projectDescription={project.projectText}
                   projectId={project.id}
+                  videoUrl={project.projectVideoUrl}
                 />
               </div>
             </div>
