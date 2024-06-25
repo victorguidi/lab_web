@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 const Project: React.FC = () => {
   const [project, setProject] = useState<Project[] | null>(null)
   const [filteredProjects, setFilteredProjects] = useState<Project[] | null>()
+  const url = `https://lab.vglab.xyz/api/`
 
   type Project = {
     id: string
@@ -22,28 +23,52 @@ const Project: React.FC = () => {
     updated_at: Date
   }
 
+  async function GetIds() {
+    return fetch(`${url}projectids`)
+      .then(response => response.json());
+  }
+
+  function GetNewestProject(id: string) {
+    return fetch(`${url}projects/${id}`)
+      .then(response => response.json());
+  }
+
   useEffect(() => {
-    const localProjects = window.sessionStorage.getItem("project")
-    if (localProjects) {
-      setProject(JSON.parse(localProjects))
-      setFilteredProjects(JSON.parse(localProjects))
-      return
-    }
-    fetch(`http://localhost:5000/projects`)
-      .then(obj => {
-        obj.json()
-          .then((r: Project[]) => {
-            setProject(r)
-            setFilteredProjects(r)
-            window.sessionStorage.setItem("project", JSON.stringify(r))
-          })
-      })
-      .catch((err) => console.log(err))
+    const updateProjects = async () => {
+      try {
+        const ids = await GetIds();
+
+        const localProjects = JSON.parse(window.sessionStorage.getItem("project") || "[]");
+        setProject(localProjects);
+        setFilteredProjects(localProjects);
+
+        const idStrings = ids.map((obj: { id: string }) => obj.id);
+
+        if (idStrings.length === localProjects.length) {
+          return;
+        } else if (idStrings.length < localProjects.length) {
+          const updatedProjects = localProjects.filter((p: Project) => idStrings.includes(p.id));
+          window.sessionStorage.setItem("project", JSON.stringify(updatedProjects));
+          setProject(updatedProjects);
+          setFilteredProjects(updatedProjects);
+        } else {
+          const newProjects = await Promise.all(idStrings
+            .filter((id: string) => !localProjects.some((p: Project) => p.id === id))
+            .map((id: string) => GetNewestProject(id))
+          );
+          const updatedProjects = [...localProjects, ...newProjects];
+          window.sessionStorage.setItem("project", JSON.stringify(updatedProjects));
+          setProject(updatedProjects);
+          setFilteredProjects(updatedProjects);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    updateProjects();
   }, [])
 
-  useEffect(() => {
 
-  }, [filteredProjects])
 
   const FilterByTag = (tag: string) => {
     if (project) {
@@ -56,7 +81,17 @@ const Project: React.FC = () => {
 
   const findNewestProject = () => {
     if (project) {
-      const newestProject = [...project].sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+      const newestProject = [...project].sort((a, b) => {
+        const dateA = new Date(a.created_at);
+        const dateB = new Date(b.created_at);
+        if (dateA < dateB) {
+          return 1;
+        } else if (dateA > dateB) {
+          return -1;
+        } else {
+          return 0;
+        }
+      })[0];
       setFilteredProjects([newestProject]);
     }
   };

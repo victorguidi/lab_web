@@ -2,7 +2,13 @@ import { useState } from 'react';
 import { FaBars } from 'react-icons/fa';
 import SearchBar from './Search';
 
-const Bar = ({ FilterByTag, findNewestProject, searchByTitleOrDescription }) => {
+type BarProps = {
+  FilterByTag: (tag: string) => void;
+  findNewestProject: () => void;
+  searchByTitleOrDescription: (query: string) => void;
+};
+
+const Bar: React.FC<BarProps> = ({ FilterByTag, findNewestProject, searchByTitleOrDescription }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleFilterClick = (tag: string) => {

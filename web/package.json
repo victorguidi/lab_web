@@ -11,11 +11,15 @@
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.13",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "prismjs": "^1.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",
     "react-markdown": "^9.0.1",
     "react-router-dom": "^6.23.1",
+    "react-syntax-highlighter": "^15.5.0",
+    "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {

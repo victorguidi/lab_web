@@ -23,7 +23,7 @@ const Projects: React.FC = () => {
 
   useEffect(() => {
     if (projectId) {
-      fetch(`http://localhost:5000/projects/${decodeURIComponent(projectId)}`)
+      fetch(`https://lab.vglab.xyz/api/projects/${decodeURIComponent(projectId)}`)
         .then(obj => {
           obj.json()
             .then((r: Project) => {

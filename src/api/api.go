@@ -1,6 +1,7 @@
 package api
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -30,12 +31,14 @@ type Server struct {
 
 func New() *Server {
 	return &Server{
-		ghttp.New().CORS(),
+		ghttp.New().CORS("*"),
 	}
 }
 
 func (s *Server) RegisterHandles() {
 	s.GET("/projects", s.handleGetProjects)
+	s.GET("/newestprojects", s.handleGetRecentProject)
+	s.GET("/projectids", s.handleGetProjectIDs)
 	s.GET("/projects/{id}", s.handleGetOneProject)
 	s.GET("/docs", s.handleGetDocs)
 	s.GET("/docs/{id}", s.handleGetOneDoc)
@@ -72,6 +75,31 @@ func (s *Server) handleGetProjects(c ghttp.Context) error {
 	var p []Project
 
 	err := db.GetAll("SELECT * FROM projects", &p)
+	if err != nil {
+		c.FAIL(err, 500)
+	}
+
+	return c.JSON(p)
+}
+
+func (s *Server) handleGetProjectIDs(c ghttp.Context) error {
+	type Ids struct {
+		Id string `json:"id"`
+	}
+	var p []Ids
+
+	err := db.GetAll("SELECT id FROM projects", &p)
+	if err != nil {
+		c.FAIL(err, 500)
+	}
+
+	return c.JSON(p)
+}
+
+func (s *Server) handleGetRecentProject(c ghttp.Context) error {
+	var p Project
+
+	err := db.Get("SELECT * FROM projects ORDER BY created_at DESC LIMIT 1;", &p)
 	if err != nil {
 		c.FAIL(err, 500)
 	}
@@ -128,6 +156,10 @@ func (s *Server) handleAddProject(c ghttp.Context) error {
 		formData[k] = c.FormValue(k)
 	}
 
+	if formData["username"] != os.Getenv("USERNAME") && formData["password"] != os.Getenv("PASSWORD") {
+		return c.FAIL(errors.New("SOMETHING WENT WRONG"), http.StatusInternalServerError)
+	}
+
 	project.ProjectName = formData["projectName"]
 	project.ProjectDescription = formData["projectDescription"]
 	project.ProjectTags = formData["projectTags"]
@@ -149,17 +181,17 @@ func (s *Server) handleAddProject(c ghttp.Context) error {
 	}
 
 	err = db.Insert(strings.ReplaceAll(`INSERT INTO projects (
-    id, 
-    project_name, 
-    project_description,
-    project_text,
-    project_tags,
-    project_stack,
-    project_video_url,
-    project_thumb_img_url,
-    project_progress,
-    article_url
-    ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`, "\n", ""), project,
+        id, 
+        project_name, 
+        project_description,
+        project_text,
+        project_tags,
+        project_stack,
+        project_video_url,
+        project_thumb_img_url,
+        project_progress,
+        article_url
+        ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`, "\n", ""), project,
 		project.Id,
 		project.ProjectName,
 		project.ProjectDescription,

@@ -4,5 +4,5 @@ github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=
 github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
 github.com/lib/pq v1.10.9 h1:YXG7RB+JIjhP29X+OtkiDnYaXQwpS4JEWq7dtCCRUEw=
 github.com/lib/pq v1.10.9/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
-github.com/victorguidi/ghttp v0.0.0-20240613235328-80ccb2292bf5 h1:2aDaxf/NnOzmoVc8W9tABrA9UIYCs/VYBBTLxlRJev4=
-github.com/victorguidi/ghttp v0.0.0-20240613235328-80ccb2292bf5/go.mod h1:ReFLO5o/6K/iaMfMFrlVZfREyav90Yugfh5ehKWFNZE=
+github.com/victorguidi/ghttp v0.0.0-20240623024930-c8bde01c1c01 h1:Z7fsp0I59IuEwotI9lNYTqPH6GLGpR+wyoBf0LaMPWg=
+github.com/victorguidi/ghttp v0.0.0-20240623024930-c8bde01c1c01/go.mod h1:ReFLO5o/6K/iaMfMFrlVZfREyav90Yugfh5ehKWFNZE=

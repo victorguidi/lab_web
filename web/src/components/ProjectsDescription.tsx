@@ -1,6 +1,5 @@
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm'
 import { Link } from 'react-router-dom'
+import { MarkdownRenderer } from '../utils/Markdown';
 
 interface ProjectComponentProps {
   projectName: string;
@@ -8,6 +7,7 @@ interface ProjectComponentProps {
   projectId: string
   articleUrl?: string
 }
+
 
 const ProjectComponent: React.FC<ProjectComponentProps> = ({ projectName, projectDescription, projectId, articleUrl }) => {
   return (
@@ -17,9 +17,11 @@ const ProjectComponent: React.FC<ProjectComponentProps> = ({ projectName, projec
           <h1 className="text-white text-3xl font-bold mb-4">{projectName}</h1>
           : <></>
       }
-      <ReactMarkdown remarkPlugins={[remarkGfm]} className="mb-6 text-gray-300 prose prose-lg prose-white text-xl">
+      <MarkdownRenderer
+      // className="mb-6 text-gray-300 prose prose-lg prose-white text-xl"
+      >
         {projectDescription}
-      </ReactMarkdown>
+      </MarkdownRenderer>
       {
         articleUrl ?
           <Link to={`/projects/id/${encodeURIComponent(projectId)}`}>

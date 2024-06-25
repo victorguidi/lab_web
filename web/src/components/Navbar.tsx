@@ -5,7 +5,7 @@ export default function Navbar() {
     <nav className="flex flex-row items-center w-full h-[10%]">
       <div className="flex justify-start w-1/2 p-6">
         <Link to="/">
-          <h1 className="text-white text-3xl font-bold">Lab</h1>
+          <h1 className="text-white text-3xl font-bold">LAB</h1>
         </Link>
       </div>
       <div className="flex w-1/2 h-full justify-end items-center gap-2 p-6">

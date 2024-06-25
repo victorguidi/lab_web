@@ -6,5 +6,5 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.9
-	github.com/victorguidi/ghttp v0.0.0-20240613235328-80ccb2292bf5
+	github.com/victorguidi/ghttp v0.0.0-20240623024930-c8bde01c1c01
 )
