@@ -13,7 +13,7 @@ export function MarkdownRenderer({ children: markdown }: MarkdownRendererProps) 
     <Markdown
       remarkPlugins={[remarkGfm]}
       rehypePlugins={[rehypeRaw]}
-      className="mb-6 text-gray-300 prose prose-lg prose-white text-xl"
+      className="mb-6  text-light-text dark:text-dark-text prose prose-lg prose-black dark:prose-white text-xl"
       components={{
         code({ node, inline, className, children, ...props }: any) {
           const match = /language-(\w+)/.exec(className || '');

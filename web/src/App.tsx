@@ -27,6 +27,8 @@ function App() {
   }
 
   useEffect(() => {
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.classList.add(theme);
     fetch(`https://lab.vglab.xyz/api/projects`)
       .then(obj => {
         obj.json()
@@ -39,7 +41,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div id="main" className="flex flex-col w-screen h-screen bg-[#010101] overflow-hidden">
+      <div id="main" className="flex flex-col w-screen h-screen bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text  overflow-hidden">
         <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
         <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
         <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />

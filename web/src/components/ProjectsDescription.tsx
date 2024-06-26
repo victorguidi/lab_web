@@ -15,7 +15,7 @@ const ProjectComponent: React.FC<ProjectComponentProps> = ({ projectName, projec
     <div className={`p-6 flex flex-col w-full ${videoUrl ? "" : "lg:items-center"}`}>
       {
         !projectName.includes("#") ?
-          <h1 className="text-white text-3xl font-bold mb-4">{projectName}</h1>
+          <h1 className=" text-light-text dark:text-dark-text text-3xl font-bold mb-4">{projectName}</h1>
           : <></>
       }
       <MarkdownRenderer>

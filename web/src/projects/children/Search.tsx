@@ -12,14 +12,14 @@ const SearchBar: React.FC<{ onSearch: (query: string) => void }> = ({ onSearch }
   return (
     <form className="flex items-center min-w-[20%] md:w-auto" onSubmit={(e) => e.preventDefault()}>
       <label htmlFor="simple-search" className="sr-only">Search</label>
-      <div className="flex w-full justify-start items-center gap-2 bg-[#0C0C0C] bg-opacity-90 rounded-ee-md p-2">
-        <svg className="w-5 h-5 text-white dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+      <div className="flex w-full justify-start items-center gap-2 bg-gray-300 dark:bg-[#0C0C0C] bg-opacity-90 rounded-ee-md p-2">
+        <svg className="w-5 h-5 text-black dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
         </svg>
         <input
           type="text"
           id="simple-search"
-          className="flex justify-start bg-[#0C0C0C] w-full h-full"
+          className="flex justify-start bg-gray-300 dark:bg-[#0C0C0C] w-full h-full"
           placeholder="Search"
           value={query}
           onChange={handleInputChange}

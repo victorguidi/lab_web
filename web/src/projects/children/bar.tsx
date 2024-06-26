@@ -28,7 +28,7 @@ const Bar: React.FC<BarProps> = ({ FilterByTag, findNewestProject, searchByTitle
   }
 
   return (
-    <div className="flex w-full h-[10%] items-top justify-between p-2 text-white font-bold">
+    <div className="flex w-full h-[10%] items-top justify-between p-2 text-light-text dark:text-dark-text font-bold">
       <SearchBar onSearch={handleSearch} />
       <div className="hidden md:flex w-[30%] justify-around items-top">
         <button onClick={() => handleFilterClick('AI')}>AI Projects</button>

@@ -118,7 +118,7 @@ const Project: React.FC = () => {
               findNewestProject={findNewestProject}
               searchByTitleOrDescription={searchByTitleOrDescription}
             />
-            <div className='grid w-full h-[90%] items-start gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 overflow-auto  scrollbar-webkit'>
+            <div className='grid w-full h-[90%] items-start gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 overflow-auto scrollbar-webkit'>
               {filteredProjects.map((project: Project) => (
                 <Link to={`/project/id/${project.id}`} key={project.id}>
                   <button>

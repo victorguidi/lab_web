@@ -4,8 +4,19 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
+      colors: {
+        light: {
+          background: '#ffffff',
+          text: '#000000',
+        },
+        dark: {
+          background: '#010101',
+          text: '#ffffff',
+        },
+      },
       typography: (theme) => ({
         white: {
           css: {
@@ -25,6 +36,41 @@ export default {
             },
             'ol > li::before': { color: theme('colors.white') },
             'ul > li::before': { backgroundColor: theme('colors.white') },
+            pre: {
+              backgroundColor: theme('colors.gray.800'),
+              padding: theme('spacing.4'),
+              borderRadius: theme('borderRadius.lg'),
+              overflowX: 'auto',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+            },
+            'pre code': {
+              backgroundColor: 'inherit',
+              padding: 0,
+              borderRadius: 0,
+              wordBreak: 'break-word',
+              whiteSpace: 'pre-wrap',
+            },
+          },
+        },
+        black: {
+          css: {
+            color: theme('colors.black'),
+            h1: { color: theme('colors.black') },
+            h2: { color: theme('colors.black') },
+            h3: { color: theme('colors.black') },
+            h4: { color: theme('colors.black') },
+            h5: { color: theme('colors.black') },
+            h6: { color: theme('colors.black') },
+            strong: { color: theme('colors.black') },
+            code: { color: theme('colors.black'), whiteSpace: 'pre-wrap', wordBreak: 'break-word' },
+            figcaption: { color: theme('colors.black') },
+            blockquote: {
+              color: theme('colors.black'),
+              borderLeftColor: theme('colors.black'),
+            },
+            'ol > li::before': { color: theme('colors.black') },
+            'ul > li::before': { backgroundColor: theme('colors.black') },
             pre: {
               backgroundColor: theme('colors.gray.800'),
               padding: theme('spacing.4'),
