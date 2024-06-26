@@ -116,6 +116,19 @@ export default {
             borderRadius: "20px",
             border: "1px solid"
           }
+        },
+        ".scrollbar-webkit-light": {
+          "&::-webkit-scrollbar": {
+            width: "8px",
+          },
+          "&::-webkit-scrollbar-track": {
+            background: "#ffffff"
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#010101",
+            borderRadius: "20px",
+            border: "1px solid"
+          }
         }
       }
       addUtilities(newUtilities, ["responsive", "hover"])
